@@ -1,0 +1,55 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<canvas id="subjectChart"></canvas>
+
+<script>
+
+async function loadStudents(){
+
+const res = await fetch("/api/students")
+const students = await res.json()
+
+const labels = [
+"Mathematics",
+"English",
+"Kiswahili",
+"Integrated Science",
+"Agriculture",
+"Social Studies",
+"Pretechnical Studies",
+"Creative Arts",
+"Religious Studies"
+]
+
+const averages = labels.map(l=>0)
+
+students.forEach(s=>{
+
+averages[0]+=s.mathematics
+averages[1]+=s.english
+averages[2]+=s.kiswahili
+averages[3]+=s.integratedScience
+averages[4]+=s.agriculture
+averages[5]+=s.socialStudies
+averages[6]+=s.pretechnicalStudies
+averages[7]+=s.creativeArts
+averages[8]+=s.religiousStudies
+
+})
+
+new Chart(document.getElementById("subjectChart"),{
+type:"bar",
+data:{
+labels:labels,
+datasets:[{
+label:"Subject Performance",
+data:averages
+}]
+}
+})
+
+}
+
+loadStudents()
+
+</script>
